@@ -1,0 +1,73 @@
+# MIURA MKT DIGITAL — versão 3
+
+Projeto completo para substituir o site na Vercel. A logo oficial com fundo transparente está incluída.
+
+## Publicar no projeto que já usa seu domínio
+
+1. Extraia o ZIP. A raiz deve conter `package.json`, `package-lock.json`, `vercel.json`, `api/`, `lib/` e `public/`.
+2. Substitua os arquivos do repositório conectado ao seu projeto Vercel por estes arquivos e envie as alterações.
+3. No projeto Vercel, use **Framework Preset: Other**, **Root Directory: a raiz do repositório**, **Output Directory: public**, **Install Command: npm ci**, **Build Command: deixe vazio**. O arquivo `vercel.json` já define instalação e saída.
+4. Faça Redeploy. Mantenha o domínio `www.miuramktdigital.com.br` associado ao projeto existente.
+
+Não publique somente `index.html`: as funções `api/audit.js` e `api/leads.js` são necessárias. Não envie `node_modules` nem `.env` ao repositório. Não é necessário criar um novo projeto para atualizar seu site.
+
+## Contatos já configurados
+
+- WhatsApp: +55 61 99970-4242.
+- E-mail: atendimento.miuramktdigital@gmail.com.
+- Instagram: https://www.instagram.com/miura.mktdigital/.
+- TikTok: falta informar o perfil oficial. Até lá, o link convida a pedir o perfil pelo WhatsApp. Preencha `tiktokUrl` em `public/config.js` com o link exato.
+
+## Análise gratuita real
+
+A função lê o HTML público da URL, sem depender de uma chave do Google. Verifica título, descrição, H1, diretivas de indexação, idioma, imagens sem atributo alt, campos sem rótulos, dimensões de imagens, viewport, HTTPS e volume HTML. Mostra a evidência de cada problema, verificações aprovadas por área, gráficos e recomendações.
+
+O tempo de primeira resposta é observado da função ao site, incluindo DNS e redirecionamentos. Não é o tempo de carregamento dos visitantes. Os percentuais são proporções de verificações HTML aprovadas, não notas Lighthouse. O scanner não executa JavaScript nem inspeciona todas as páginas do domínio; páginas montadas no navegador exigem avaliação complementar. Ele não mede posições no Google ou perdas de faturamento.
+
+Para adicionar **LCP, FCP, TBT, CLS, Speed Index e as notas Lighthouse**, crie e habilite a chave de PageSpeed Insights e configure `PAGESPEED_API_KEY` em **Vercel → Settings → Environment Variables**. Depois faça Redeploy. Nunca coloque essa chave em `public/`. Se o Google falhar, a análise HTML continua disponível quando o site permitir a leitura. Não existem links externos de PageSpeed na interface do cliente. Sites protegidos, indisponíveis ou que bloqueiam a leitura ainda podem impedir a análise; nesses casos a interface não inventa resultados.
+
+## Envio da ficha pelo WhatsApp
+
+Sem integração, o formulário abre uma mensagem pronta para **+55 61 99970-4242**. O visitante precisa tocar em **enviar** no próprio WhatsApp. Se a abertura não ocorrer, há um botão explícito para enviar a ficha. O site não afirma que uma mensagem foi entregue automaticamente.
+
+Para enviar automaticamente ao preencher, escolha UMA integração:
+
+### Opção A — webhook de automação
+
+Configure `LEADS_WEBHOOK_URL` com o endpoint HTTPS de uma automação sua (por exemplo, n8n/Make conectado a um provedor de WhatsApp). Se o endpoint usa token, configure `LEADS_WEBHOOK_TOKEN`.
+
+O backend envia JSON com `event`, `id`, `createdAt`, `recipient` (5561999704242), `lead` e `message`. A automação deve enviar `message` ao número `recipient` e retornar sucesso somente quando tiver aceitado a solicitação. Nome, telefone, objetivo, faturamento e site estão em `lead`. O webhook sozinho não envia WhatsApp: o fluxo precisa estar conectado ao provedor e ativado. Configure deduplicação e proteção contra abuso na automação e no projeto Vercel.
+
+### Opção B — WhatsApp Business Cloud API da Meta
+
+Configure no servidor:
+
+- `WHATSAPP_ACCESS_TOKEN`: token de acesso do negócio.
+- `WHATSAPP_PHONE_NUMBER_ID`: ID do número que enviará a notificação.
+- `WHATSAPP_GRAPH_VERSION`: versão ativa da Graph API usada pela sua conta, por exemplo no formato vNN.0.
+- `WHATSAPP_TEMPLATE_NAME`: nome do template aprovado para notificação de leads.
+- `WHATSAPP_TEMPLATE_LANGUAGE`: padrão pt_BR.
+
+O template deve ter EXATAMENTE cinco parâmetros no corpo, nesta ordem: nome, WhatsApp do cliente, objetivo, faixa de faturamento e site. Exemplo de corpo a submeter à aprovação da Meta:
+
+> Novo interesse nos serviços da MIURA. Cliente: {{1}}. WhatsApp: {{2}}. Objetivo: {{3}}. Faturamento médio: {{4}}. Site: {{5}}.
+
+A conta/provedor deve estar autorizado a notificar o destinatário informado; aprovação de template, permissões, consentimento de destinatário e eventuais custos são administrados no serviço. O número destinatário continua sendo 5561999704242. Use um remetente habilitado que possa entregar a esse destinatário.
+
+Após configurar, faça Redeploy e um teste controlado. O retorno `accepted` significa aceitação pelo provedor, não confirmação de entrega; a confirmação depende dos eventos de entrega do provedor. Se houver falha, o formulário oferece envio manual. Nunca cole tokens em conversa nem inclua tokens no frontend. Se ambos estiverem configurados, o webhook tem preferência.
+
+## Visual e acessibilidade
+
+10 serviços, navegação móvel, contatos diretos, botão flutuante de WhatsApp, fundo com linhas vermelhas e pulsos, símbolo oficial com órbitas, movimentos suaves associados à rolagem. Os movimentos respeitam `prefers-reduced-motion` e podem ser pausados. A calculadora usa o cenário ilustrativo investimento × 4; não é previsão garantida. Não são usados cases de vendas não comprovados.
+
+## Verificação local
+
+Node.js 22 ou superior:
+
+```sh
+npm ci
+npm run check
+npm test
+```
+
+Os testes usam respostas controladas e não enviam mensagens reais. O pacote foi verificado localmente; a publicação e as integrações precisam ser conferidas no seu projeto Vercel. A imagem de prévia é ilustrativa e pode apresentar diferenças de tipografia e enquadramento.

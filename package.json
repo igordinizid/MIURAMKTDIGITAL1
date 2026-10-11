@@ -1,0 +1,19 @@
+{
+  "name": "miura-diagnostico-real",
+  "version": "3.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "node --check api/audit.js && node --check api/leads.js && node --check lib/safe-page.js && node --check lib/html-report.js && node --check public/app.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "cheerio": "1.1.2",
+    "ipaddr.js": "2.2.0"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}
