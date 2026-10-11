@@ -1,4 +1,6 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
   "version": 2,
   "functions": {
     "api/audit.js": {
@@ -28,6 +30,6 @@
     }
   ],
   "outputDirectory": "public",
-  "buildCommand": "",
+  "buildCommand": "npm run build",
   "installCommand": "npm ci"
 }

@@ -1,4 +1,4 @@
-# MIURA MKT DIGITAL — versão 3
+# MIURA MKT DIGITAL — versão 3.0.1
 
 Projeto completo para substituir o site na Vercel. A logo oficial com fundo transparente está incluída.
 
@@ -6,10 +6,23 @@ Projeto completo para substituir o site na Vercel. A logo oficial com fundo tran
 
 1. Extraia o ZIP. A raiz deve conter `package.json`, `package-lock.json`, `vercel.json`, `api/`, `lib/` e `public/`.
 2. Substitua os arquivos do repositório conectado ao seu projeto Vercel por estes arquivos e envie as alterações.
-3. No projeto Vercel, use **Framework Preset: Other**, **Root Directory: a raiz do repositório**, **Output Directory: public**, **Install Command: npm ci**, **Build Command: deixe vazio**. O arquivo `vercel.json` já define instalação e saída.
-4. Faça Redeploy. Mantenha o domínio `www.miuramktdigital.com.br` associado ao projeto existente.
+3. No projeto Vercel, use **Framework Preset: Other**, **Root Directory: em branco se os arquivos estiverem na raiz do repositório**, **Output Directory: public**, **Install Command: npm ci**, **Build Command: npm run build**. O `vercel.json` já define framework, instalação, verificação e saída.
+4. Publique a nova revisão com esses arquivos. Mantenha o domínio `www.miuramktdigital.com.br` associado ao projeto existente. Reimplantar uma revisão antiga não inclui as alterações do ZIP novo.
 
 Não publique somente `index.html`: as funções `api/audit.js` e `api/leads.js` são necessárias. Não envie `node_modules` nem `.env` ao repositório. Não é necessário criar um novo projeto para atualizar seu site.
+
+## Erro: api/audit.js não corresponde a nenhuma função
+
+Essa mensagem significa que a Vercel leu a configuração de `functions`, mas não encontrou a função correspondente entre os arquivos reconhecidos naquela publicação. O ZIP inclui as duas funções. Confira o conteúdo da revisão enviada e a pasta escolhida como Root Directory.
+
+- No GitHub, envie os ARQUIVOS EXTRAÍDOS e suas pastas; colocar apenas o ZIP no repositório não disponibiliza as funções.
+- A pasta que contém `vercel.json` e `package.json` precisa conter também `api/audit.js`, `api/leads.js`, `lib/`, `scripts/` e `public/`.
+- Se os arquivos estão direto no repositório, mantenha Root Directory em branco. Se colocou tudo em uma subpasta, selecione essa subpasta inteira.
+- Root Directory e Output Directory são configurações diferentes. `public` é a saída estática; não deve ser a raiz do projeto porque as funções ficam em `api/`, ao lado dela.
+- Use o projeto de HTML + Node.js deste ZIP com Framework Other. A configuração agora força `framework: null` para evitar usar um preset de outro framework. Se estiver usando v0 para gerar um projeto Next.js, esses endpoints precisam ser adaptados ao framework; este pacote não deve ser mesclado como páginas Next.js.
+- Preserve as entradas de `functions`: apagá-las não recupera APIs que não foram enviadas.
+
+O comando `npm run build` verifica a presença dos arquivos, os handlers e suas dependências. É uma verificação local; o resultado final da publicação precisa ser confirmado nos registros da Vercel.
 
 ## Contatos já configurados
 
@@ -62,10 +75,11 @@ Após configurar, faça Redeploy e um teste controlado. O retorno `accepted` sig
 
 ## Verificação local
 
-Node.js 22 ou superior:
+Node.js 22:
 
 ```sh
 npm ci
+npm run build
 npm run check
 npm test
 ```
