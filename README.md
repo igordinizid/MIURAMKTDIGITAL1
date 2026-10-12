@@ -1,6 +1,6 @@
-# MIURA MKT DIGITAL — versão 3.0.1
+# MIURA MKT DIGITAL — versão 3.0.2
 
-Projeto completo para substituir o site na Vercel. A logo oficial com fundo transparente está incluída.
+Projeto completo para substituir o site na Vercel. A logo oficial com fundo transparente está incorporada no HTML, para não depender do carregamento de um arquivo separado.
 
 ## Publicar no projeto que já usa seu domínio
 
@@ -12,6 +12,9 @@ Projeto completo para substituir o site na Vercel. A logo oficial com fundo tran
 Não publique somente `index.html`: as funções `api/audit.js` e `api/leads.js` são necessárias. Não envie `node_modules` nem `.env` ao repositório. Não é necessário criar um novo projeto para atualizar seu site.
 
 ## Erro: api/audit.js não corresponde a nenhuma função
+
+Os arquivos precisam manter os caminhos originais. `audit.js` deve estar em `api/audit.js`, e `leads.js` em `api/leads.js`. As bibliotecas devem ficar em `lib/`, a página em `public/`, a verificação em `scripts/` e os testes em `tests/`. Enviar todos esses arquivos soltos para a raiz perde a estrutura e impede a publicação.
+
 
 Essa mensagem significa que a Vercel leu a configuração de `functions`, mas não encontrou a função correspondente entre os arquivos reconhecidos naquela publicação. O ZIP inclui as duas funções. Confira o conteúdo da revisão enviada e a pasta escolhida como Root Directory.
 
@@ -85,3 +88,5 @@ npm test
 ```
 
 Os testes usam respostas controladas e não enviam mensagens reais. O pacote foi verificado localmente; a publicação e as integrações precisam ser conferidas no seu projeto Vercel. A imagem de prévia é ilustrativa e pode apresentar diferenças de tipografia e enquadramento.
+
+A página contém a marca, os estilos e os scripts. Para análise real, publique o projeto completo com `api/` e `lib/`; colar apenas HTML não publica funções de servidor.
