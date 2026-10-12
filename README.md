@@ -1,4 +1,4 @@
-# MIURA MKT DIGITAL — versão 3.0.2
+# MIURA MKT DIGITAL — versão 3.0.3
 
 Projeto completo para substituir o site na Vercel. A logo oficial com fundo transparente está incorporada no HTML, para não depender do carregamento de um arquivo separado.
 
@@ -74,7 +74,7 @@ Após configurar, faça Redeploy e um teste controlado. O retorno `accepted` sig
 
 ## Visual e acessibilidade
 
-10 serviços, navegação móvel, contatos diretos, botão flutuante de WhatsApp, fundo com linhas vermelhas e pulsos, símbolo oficial com órbitas, movimentos suaves associados à rolagem. Os movimentos respeitam `prefers-reduced-motion` e podem ser pausados. A calculadora usa o cenário ilustrativo investimento × 4; não é previsão garantida. Não são usados cases de vendas não comprovados.
+13 serviços agrupados em quatro categorias que abrem ao toque, navegação móvel, ícones de contato no rodapé após o formulário, botão flutuante de WhatsApp, fundo com linhas vermelhas e pulsos, símbolo oficial com órbitas, movimentos suaves associados à rolagem. Os movimentos respeitam `prefers-reduced-motion` e podem ser pausados. A calculadora usa o cenário ilustrativo investimento × 4; não é previsão garantida. Não são usados cases de vendas não comprovados.
 
 ## Verificação local
 
@@ -90,3 +90,7 @@ npm test
 Os testes usam respostas controladas e não enviam mensagens reais. O pacote foi verificado localmente; a publicação e as integrações precisam ser conferidas no seu projeto Vercel. A imagem de prévia é ilustrativa e pode apresentar diferenças de tipografia e enquadramento.
 
 A página contém a marca, os estilos e os scripts. Para análise real, publique o projeto completo com `api/` e `lib/`; colar apenas HTML não publica funções de servidor.
+
+## Editar a interface
+
+Edite `public/styles.css` e `public/app.js`. O comando `npm run build` incorpora esses arquivos e `public/config.js` à página, preservando a logo oficial. A interface usa ícones de marcas do Simple Icons 13.21.0 e ícones de interface do Lucide, incorporados no código, sem dependência de um CDN. As categorias de serviços são operadas por botões com `aria-expanded` e mantêm apenas um grupo aberto por vez.

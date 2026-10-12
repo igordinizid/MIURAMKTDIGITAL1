@@ -40,7 +40,7 @@ function renderReport(report){
  if(top.length){top.forEach((issue,i)=>{const block=node('div','plan-step');block.append(node('span','pillar-no','0'+(i+1)),node('p','',issue.help));plan.append(block);});}
  else plan.append(node('p','micro','Revisar a jornada, a clareza da oferta e os dados de conversão com sua equipe. Esses pontos não foram medidos automaticamente.'));
  $('#issue-filter').value='all';renderIssues();
- const date=new Date(report.measuredAt);$('#measurement-meta').textContent=report.source+' · '+(Number.isNaN(date.valueOf())?report.measuredAt:date.toLocaleString('pt-BR')); 
+ const date=new Date(report.measuredAt);$('#measurement-meta').textContent=report.source+' · '+(Number.isNaN(date.valueOf())?report.measuredAt:date.toLocaleString('pt-BR'));
  $('#report-address').textContent='Página analisada: '+report.finalUrl;
  $('#score-note').textContent=report.scoreNote||''; $('#scope-note').textContent=report.scopeNote||''; $('#report-badge').textContent=report.mode==='html'?'HTML · EVIDÊNCIAS REAIS':'MOBILE · LABORATÓRIO';
  const chart=$('#check-chart');chart.replaceChildren();
@@ -86,9 +86,26 @@ $('#revenue').addEventListener('input',updateCalculator);$('#investment').addEve
 $('#phone').addEventListener('input', (event) => {event.target.setCustomValidity('');});
 const WHATSAPP_MIURA='5561999704242';
 const contactUrl='https://wa.me/'+WHATSAPP_MIURA;
+const tiktokLink=$('#tiktok-link');
 const tiktok=window.MIURA_CONFIG?.tiktokUrl;
-if(tiktok){try{const u=new URL(tiktok);if(u.protocol==='https:'&&(u.hostname==='www.tiktok.com'||u.hostname==='tiktok.com')){const a=$('#tiktok-link');a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';a.querySelector('strong').textContent='Acompanhe a Miura ↗';}}catch{}}
-else $('#tiktok-link').href=contactUrl+'?text='+encodeURIComponent('Olá, Miura! Qual é o perfil de vocês no TikTok?');
+tiktokLink.href=contactUrl+'?text='+encodeURIComponent('Olá, Miura! Qual é o perfil de vocês no TikTok?');
+if(tiktok){try{const u=new URL(tiktok);if(u.protocol==='https:'&&(u.hostname==='www.tiktok.com'||u.hostname==='tiktok.com')){tiktokLink.href=u.href;tiktokLink.target='_blank';tiktokLink.rel='noopener noreferrer';tiktokLink.setAttribute('aria-label','Acompanhar a Miura no TikTok');tiktokLink.dataset.contactDetail='TikTok · Acompanhe a Miura';}}catch{}}
+const serviceCategories=Array.from(document.querySelectorAll('#servicos .miura-category'));
+serviceCategories.forEach(button=>button.addEventListener('click',()=>{
+ const shouldOpen=button.getAttribute('aria-expanded')!=='true';
+ serviceCategories.forEach(category=>{const open=category===button&&shouldOpen;category.setAttribute('aria-expanded',String(open));document.getElementById(category.getAttribute('aria-controls')).hidden=!open;});
+}));
+document.querySelectorAll('#servicos [data-service]').forEach(link=>link.addEventListener('click',()=>{
+ $('#servicos .miura-selected').textContent='Vamos conversar sobre '+link.dataset.service.toLowerCase()+'.';
+}));
+const footerSocials=document.querySelector('.miura-socials');
+const footerContact=$('#footer-contact-detail');
+const defaultContact='WhatsApp · (61) 99970-4242';
+function describeContact(event){const link=event.target.closest('[data-contact]');if(link&&footerSocials.contains(link))footerContact.textContent=link.dataset.contactDetail;}
+footerSocials.addEventListener('pointerover',describeContact);
+footerSocials.addEventListener('focusin',describeContact);
+footerSocials.addEventListener('pointerleave',()=>{if(!footerSocials.contains(document.activeElement))footerContact.textContent=defaultContact;});
+footerSocials.addEventListener('focusout',event=>{if(!footerSocials.contains(event.relatedTarget))footerContact.textContent=defaultContact;});
 let leadBusy=false;
 $('#lead-form').addEventListener('submit',async(event)=>{
  event.preventDefault();if(leadBusy)return;
