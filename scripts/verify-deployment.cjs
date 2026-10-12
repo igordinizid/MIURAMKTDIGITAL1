@@ -8,7 +8,7 @@ const required = [
  'api/audit.js', 'api/leads.js',
  'lib/report.js', 'lib/html-report.js', 'lib/safe-page.js', 'lib/connection-report.js',
  'public/index.html', 'public/app.js', 'public/styles.css',
- 'public/config.js', 'public/assets/logo.svg', 'public/assets/simbolo.svg',
+ 'public/config.js', 'public/assets/logo.svg', 'public/assets/simbolo.svg', 'public/assets/google-g.png',
  'vercel.json', 'package.json', 'package-lock.json'
 ];
 const missing = required.filter(file => !fs.existsSync(path.join(root, file)));

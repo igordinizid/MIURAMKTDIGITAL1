@@ -78,7 +78,7 @@ Após configurar, faça Redeploy e um teste controlado. O retorno `accepted` sig
 
 ## Avaliações no Google
 
-O menu “Avaliações” leva ao convite no rodapé, depois dos canais de contato. O botão “Avaliar no Google” abre o link oficial informado pela Miura em outra aba: https://g.page/r/CWR7bTZoPcY_ECE/review. A seção não exibe notas ou contagens de avaliações sem uma fonte verificada.
+O menu “Avaliações” leva à seção no rodapé, depois dos canais de contato. O texto é “Veja o que os clientes falam da Miura Marketing Digital no Google.” O botão “Ver avaliações” abre o perfil público verificado da Miura: https://www.google.com/maps?cid=4595427987577207652. O link “Avaliar a Miura” mantém o endereço fornecido para escrever uma avaliação: https://g.page/r/CWR7bTZoPcY_ECE/review. Ambos abrem em outra aba. O símbolo colorido do Google é servido pelo próprio site em `public/assets/google-g.png`, obtido de https://developers.google.com/static/identity/images/g-logo.png. Não são exibidas notas ou contagens de avaliações sem uma fonte verificada.
 
 ## Verificação local
 
