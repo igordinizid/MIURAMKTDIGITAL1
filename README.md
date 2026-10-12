@@ -1,4 +1,4 @@
-# MIURA MKT DIGITAL — versão 3.0.3
+# MIURA MKT DIGITAL — versão 3.0.4
 
 Projeto completo para substituir o site na Vercel. A logo oficial com fundo transparente está incorporada no HTML, para não depender do carregamento de um arquivo separado.
 
@@ -76,6 +76,10 @@ Após configurar, faça Redeploy e um teste controlado. O retorno `accepted` sig
 
 13 serviços agrupados em quatro categorias que abrem ao toque, navegação móvel, ícones de contato no rodapé após o formulário, botão flutuante de WhatsApp, fundo com linhas vermelhas e pulsos, símbolo oficial com órbitas, movimentos suaves associados à rolagem. Os movimentos respeitam `prefers-reduced-motion` e podem ser pausados. A calculadora usa o cenário ilustrativo investimento × 4; não é previsão garantida. Não são usados cases de vendas não comprovados.
 
+## Avaliações no Google
+
+O menu “Avaliações” leva ao convite no rodapé, depois dos canais de contato. O botão “Avaliar no Google” abre o link oficial informado pela Miura em outra aba: https://g.page/r/CWR7bTZoPcY_ECE/review. A seção não exibe notas ou contagens de avaliações sem uma fonte verificada.
+
 ## Verificação local
 
 Node.js 22:
@@ -94,3 +98,7 @@ A página contém a marca, os estilos e os scripts. Para análise real, publique
 ## Editar a interface
 
 Edite `public/styles.css` e `public/app.js`. O comando `npm run build` incorpora esses arquivos e `public/config.js` à página, preservando a logo oficial. A interface usa ícones de marcas do Simple Icons 13.21.0 e ícones de interface do Lucide, incorporados no código, sem dependência de um CDN. As categorias de serviços são operadas por botões com `aria-expanded` e mantêm apenas um grupo aberto por vez.
+
+## Leitura e relatórios parciais
+
+A auditoria interpreta HTML comprimido com gzip, deflate e Brotli, mantendo a validação de IPs públicos, HTTPS e o limite de 2 MiB para dados transferidos e descomprimidos. Uma resposta de erro não é analisada como se fosse o site. Quando a página recusa a conexão, o relatório mostra a resposta HTTP e o tempo observado, quando disponíveis, com todas as notas de SEO, acessibilidade e carregamento indisponíveis. Bloqueios externos podem exigir revisão pela hospedagem do site analisado; o código não contorna proteções.

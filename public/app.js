@@ -30,9 +30,9 @@ function renderIssues(){
 }
 function renderReport(report){
  currentReport=report;const scores=$('#score-grid');scores.replaceChildren();
- for(const category of report.categories){const g=grade(category.score),card=node('article','score-card');const ring=node('div','score-ring');ring.style.setProperty('--score',(category.score??0)+'%');ring.style.setProperty('--score-color',g.color);ring.append(node('strong','',category.score===null?'—':String(category.score)));ring.setAttribute('aria-label',category.label+': '+(category.score===null?'sem dados':category.score+' de 100'));card.append(ring,node('h3','',category.label),node('p','micro',report.mode==='html'?category.passed+'/'+category.total+' verificações aprovadas':g.label));scores.append(card);}
- $('#findings-summary').textContent=report.counts.issues?report.counts.issues+' pontos para investigar e melhorar.':'A medição não encontrou falhas automáticas nas verificações retornadas.';
- $('#findings-counts').textContent=report.counts.passed+' verificações aprovadas · '+report.counts.unavailable+' sem resultado conclusivo.';
+ for(const category of report.categories){const g=grade(category.score),card=node('article','score-card');const ring=node('div','score-ring');ring.style.setProperty('--score',(category.score??0)+'%');ring.style.setProperty('--score-color',g.color);ring.append(node('strong','',category.score===null?'—':String(category.score)));ring.setAttribute('aria-label',category.label+': '+(category.score===null?'sem dados':category.score+' de 100'));card.append(ring,node('h3','',category.label),node('p','micro',category.detail||(report.mode==='html'?category.passed+'/'+category.total+' verificações aprovadas':g.label)));scores.append(card);}
+ $('#findings-summary').textContent=report.mode==='connection'?'Identificamos o que impediu a leitura.':report.counts.issues?report.counts.issues+' '+(report.counts.issues===1?'ponto':'pontos')+' para investigar e melhorar.':'A medição não encontrou falhas automáticas nas verificações retornadas.';
+ $('#findings-counts').textContent=report.mode==='connection'?'Relatório parcial: conteúdo, SEO, acessibilidade e carregamento não avaliados.':report.counts.passed+' verificações aprovadas · '+report.counts.unavailable+' sem resultado conclusivo.';
  const metrics=$('#metrics');metrics.replaceChildren();
  for(const m of report.metrics){const row=node('div','metric-row');const label=node('div','metric-label');label.append(node('strong','',m.label),node('span','',m.value));const bar=node('div','metric-track');const fill=node('span');fill.style.width=(m.score??0)+'%';fill.style.background=grade(m.score).color;bar.append(fill);row.append(label,node('p','micro',m.description),bar,node('p','micro',m.score===null?'Valor observado, sem nota de navegação':grade(m.score).label+' · nota do indicador: '+m.score+'/100'));metrics.append(row);}
  const plan=$('#meeting-plan');plan.replaceChildren();
@@ -42,7 +42,7 @@ function renderReport(report){
  $('#issue-filter').value='all';renderIssues();
  const date=new Date(report.measuredAt);$('#measurement-meta').textContent=report.source+' · '+(Number.isNaN(date.valueOf())?report.measuredAt:date.toLocaleString('pt-BR'));
  $('#report-address').textContent='Página analisada: '+report.finalUrl;
- $('#score-note').textContent=report.scoreNote||''; $('#scope-note').textContent=report.scopeNote||''; $('#report-badge').textContent=report.mode==='html'?'HTML · EVIDÊNCIAS REAIS':'MOBILE · LABORATÓRIO';
+ $('#score-note').textContent=report.scoreNote||''; $('#scope-note').textContent=report.scopeNote||''; $('#report-badge').textContent=report.mode==='connection'?'CONEXÃO · RELATÓRIO PARCIAL':report.mode==='html'?'HTML · EVIDÊNCIAS REAIS':'MOBILE · LABORATÓRIO';
  const chart=$('#check-chart');chart.replaceChildren();
  for(const c of report.categories){if(c.total===undefined)continue;const row=node('div','check-chart-row');row.append(node('span','',c.label),node('strong','',c.passed+'/'+c.total+' verificações aprovadas'));const track=node('div','check-track');const fill=node('span');fill.style.width=c.score+'%';track.append(fill);row.append(track);chart.append(row);}
 
@@ -68,7 +68,7 @@ $('#audit-form').addEventListener('submit',async event=>{
   const response=await fetch('/api/audit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:activeUrl}),signal:controller.signal});
   const data=await response.json().catch(()=>null);
   if(!response.ok||!data?.categories)throw new Error(data?.error||'O serviço de análise não está disponível neste endereço. Nenhuma nota foi gerada.');
-  renderReport(data);$('#audit-status').textContent='Diagnóstico concluído. Explore as evidências e as ações recomendadas abaixo.';
+  renderReport(data);$('#audit-status').textContent=data.mode==='connection'?'Verificação de conexão concluída. O conteúdo não pôde ser lido; consulte a evidência e a orientação abaixo.':'Diagnóstico concluído. Explore as evidências e as ações recomendadas abaixo.';
  }catch(error){$('#report-error-message').textContent=error.name==='AbortError'?'A página demorou para responder. Tente novamente ou solicite uma avaliação com a Miura.':error.message;$('#report-error').hidden=false;$('#audit-status').textContent='Não foi possível concluir a medição. Veja as opções abaixo.';}
  finally{clearInterval(timer);clearTimeout(timeout);auditBusy=false;$('#report-loading').hidden=true;button.disabled=false;button.removeAttribute('aria-busy');button.textContent='Analisar Meu Site Grátis →';}
 });

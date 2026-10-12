@@ -119,3 +119,27 @@ body{position:relative;isolation:isolate}.tech-background{position:fixed;inset:0
   #servicos .miura-category-name{font-size:13px}
   .footer.miura-refinement .miura-footer-heading{font-size:20px}
 }
+
+/* Convite para avaliar a Miura no Google. */
+.nav-links{white-space:nowrap}
+.miura-refinement .miura-review{display:flex;align-items:center;gap:18px;max-width:690px;margin:14px auto 28px;padding:22px;border:1px solid #323238;border-radius:16px;background:linear-gradient(120deg,#1c181a,#18181b);text-align:left;scroll-margin-top:120px}
+.miura-refinement .miura-review-icon{display:grid;place-items:center;flex-shrink:0;width:44px;height:44px;border:1px solid #74474760;border-radius:12px;color:#d0aaaa;background:#99000012}
+.miura-refinement .miura-review-copy{flex:1;min-width:0}
+.miura-refinement .miura-review-copy h3{font-size:16px;font-weight:500;letter-spacing:-.25px;line-height:1.4}
+.miura-refinement .miura-review-copy p{margin-top:5px;max-width:300px;font-size:12px;line-height:1.65;color:#aaaab5}
+.miura-refinement .miura-review-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;flex-shrink:0;min-height:46px;padding:12px 16px;border:1px solid #b12c2c;border-radius:10px;background:#990000;color:#fff;font-size:12px;font-weight:600;transition:background .2s ease,transform .2s ease}
+.miura-refinement .miura-review-button:hover{background:#ac0c0c;transform:translateY(-2px)}
+.miura-refinement .miura-review-button:focus-visible{outline:2px solid #e3b8b8;outline-offset:4px}
+.miura-refinement .miura-review-button svg{width:16px;height:16px}
+@media(max-width:900px){
+  .nav-cta,.nav-links{display:none}
+  .menu-toggle{display:block}
+  #mobile-menu:not([hidden]){display:flex;flex-direction:column;padding:4px 18px 20px;gap:18px;font-size:13px}
+}
+@media(max-width:600px){
+  .miura-refinement .miura-review{display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px;padding:18px;margin-top:14px;text-align:left}
+  .miura-refinement .miura-review-icon{width:36px;height:36px;border-radius:10px}
+  .miura-refinement .miura-review-icon svg{width:21px;height:21px}
+  .miura-refinement .miura-review-copy h3{font-size:15px}
+  .miura-refinement .miura-review-button{grid-column:1/-1;width:100%}
+}
